@@ -1,0 +1,1 @@
+The code and the mongodb data are to be completed. This is a sample to ask if such kind of filtering and code is allowed or is collecting the entire tweet structure mandatory.
