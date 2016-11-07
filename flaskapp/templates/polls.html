@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!--loading AJAX API-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+	google.charts.load('current', {'packages':['corechart']});
+
+	function display_graph() {
+		
+      drawChart();
+      
+	}
+	function drawChart(){
+	
+		var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Type of Tweet');
+        data.addColumn('number', 'Tweets');
+        data.addRows([
+          ['Original Tweets', 3955],
+          ['Retweeeted Tweets', 6788]
+            ]);
+
+        // Set chart options
+        var options = {
+                       'width':600,
+                       'height':400};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+       
+	}
+	
+	</script>
+
+<style>
+body{
+	background-color: #000000;
+}
+
+img.main{
+	max-width: 100%;margin:auto;display: block;width: 1200px;height:600px;border-radius: 10px;position: relative;
+}
+h1{
+	text-align:center;font-size: 40px;color: #ffffff;
+}
+h2{
+	color:#ffffff;text-align: center;padding-left: 100px;padding-right: 100px;padding-bottom: 50px;
+}
+h3{
+	color:#ffffff;
+	text-align: center;
+}
+button{
+	background: #ffffff;
+	border: none;
+	color: #00007f;
+	padding: 15px;
+	border-radius: 10px;
+	text-decoration: :none;
+	font-size: 15px;
+	outline: none;
+	display: block;
+	margin:auto;
+	width: 20%;
+}
+button:hover{background-color: #666666}
+button:active{
+	transform: translateY(4px);
+/*	visibility: hidden;*/
+}
+p{
+	font-family: sans-serif;
+	padding-left:100px; 
+	font-size: 20px;
+}
+div.charts{
+	display:block; margin:auto;width:50%
+}
+
+</style>
+</head>
+
+<body>
+<div class="top" >
+<img class="main" src="/static/f.jpg" >
+<h1> US Elections 2016 </h1>
+<h3><span style="color: #ff2222">Hillary Clinton</span> or <span style="color: #2222ff">Donald Trump?</span></h3>
+</div>
+<h2 >
+	Over 10,000 real time tweets were streamed using the hashtags #USelection, #trump and #hillary to analyse the 2016 US Election. 
+</h2>
+
+<div>
+<div style="color: #4444ff;margin-top: 50px;">
+	<p> 
+		Distribution of Original Tweets vs Retweeted Tweets 
+	</p>
+	<br><br>
+	<button id="1" onclick="display_graph()">View</button>
+	<br><br>
+	<div class="charts" id="chart_div"></div>
+	
+</div>
+<div style="color: #ff2222;margin-top: 50px;">
+	<p > 
+		Distribution of Kind of Tweets (Text/Image/Text+Image)
+	</p>
+	<br><br>
+	<button onclick="display_graph2()">View</button>
+	<br><br>
+	<div class="charts" id="chart2"></div>
+	<script type="text/javascript">
+	// google.charts.load('current', {'packages':['corechart']});
+	function display_graph2()
+	{
+		
+		 drawChart2();
+	}
+	function drawChart2(){
+	
+		var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Kind');
+        data.addColumn('number', 'Tweets');
+        data.addRows([
+          ['Text', 9823],
+          ['Image', 0],
+          ['Text+Image', 920]
+            ]);
+
+        // Set chart options
+        var options = {'width':600,
+                       'height':400
+                   };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart2'));
+        chart.draw(data, options);
+	}
+	</script>
+	
+</div>
+<div style="color: #4444ff;margin-top: 50px;">
+	<p> 
+		List of top 10 Hashtags
+	</p>
+	<br><br>
+	<button onclick="showList()">View</button>
+	<br><br>
+	<p id="list" style="display:block; margin:auto;width:50%"></p>
+	<script type="text/javascript">
+		function showList()
+		{
+			drawChart3();
+		}
+		function drawChart3()
+		{
+			var data = google.visualization.arrayToDataTable([
+	         ['Hashtag', 'Number',],
+	         ['#trump', 4688],            
+	         ['#uselection', 2180 ],            
+	         ['#clinton', 1514 ],
+	         ['#trumpwin', 752 ], 
+	         ['#maga',667],
+	         ['#hillaryforprision', 404],
+	         ['#worldseries', 318],
+	         ['#postseason', 312],
+	         ['#fbi',291]
+	      ]);
+			
+			var view = new google.visualization.DataView(data);
+			view.setColumns([0,1,
+			{
+				calc: "stringify",
+				sourceColumn: 1,
+				type:"string",
+				role:"annotation"}
+			]
+				);
+	        // Set chart options
+	        var options = {'width':700,
+	                       'height':500,
+	                       bar: {groupWidth: "95%"},
+	                       colors:['red']
+	                       };
+
+	        // Instantiate and draw our chart, passing in some options.
+	        var chart = new google.visualization.BarChart(document.getElementById('list'));
+	        chart.draw(view, options);
+		}
+
+	</script>
+	
+</div>
+<div style="color: #ff2222;size: 30px;margin-top: 50px;">
+	<p > 
+		Who is more popular?
+	</p>
+		<br><br>
+	<button onclick="showImage()">View</button>
+	<br><br>
+	<h1 id="ans" style="visibility: hidden;">Trump it is</h1>
+	<br><br>
+	<img id="pic" src="" style="border-radius:50%;display: block;margin: auto;width: 50%" >
+	<script type="text/javascript">
+		function showImage(){
+			document.getElementById('pic').src="/static/trump.jpg";
+			document.getElementById('ans').style.visibility='visible';
+		}
+	</script>
+	<p style="font-size: 15px; color: #ffffff">
+	Note: The number of hashtags favouring them was used to determine their popularity.
+	</p>
+</div>
+</div>
+
+</body>
