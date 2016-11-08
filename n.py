@@ -91,7 +91,7 @@ trump=['hillaryforprison','trump','maga','trumptrain','donaldtrump2016','blacksf
 sumtrump=0
 for t in trump:
 	sumtrump=hashtags_count[t]+sumtrump
-
+print sumhillary,sumtrump
 if(sumhillary>sumtrump):
 	print "Hillary is more popular"
 else:
