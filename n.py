@@ -1,5 +1,7 @@
+from __future__ import print_function
 import json
 import operator
+import numpy
 from pymongo import MongoClient
 client=MongoClient()
 db=client.tweetdata
@@ -15,7 +17,7 @@ type_media=0
 type_text=0
 type_both=0
 am=1
-
+file=open('geoData','w')
 for document in cursor:
 	try:
 		if document['text'].startswith('RT'):
@@ -25,7 +27,30 @@ for document in cursor:
 		text="none"
 
 	try:
-		place.append(document['place']['bounding_box']['coordinates'])
+		y=document['place']['bounding_box']['coordinates']
+		r=numpy.array(y)
+		s=numpy.array(r[0])
+		(longitude,latitude)=((s[0][0]+s[2][0])/2,(s[0][1]+s[1][1])/2)
+		print("data.addRows([[",end="")
+		print(latitude,end=",")
+		print(longitude,end="")
+		file.write("data.addRows([[")
+		file.write(str(latitude)+",")
+		file.write(str(longitude))
+
+		try:
+			
+			city=document['place']['name']
+			print(city)
+			# print(",'",end="")
+			# print(city,end="']]);\n")
+			file.write(",'")
+			file.write(str(city))
+			file.write("']]);\n")
+		except Exception:
+			# file.write("",end="]]);\n")
+			file.write(",'']]);\n")
+		# place.append(document['place']['bounding_box']['coordinates'])
 	except Exception:
 		c=1
 
@@ -58,7 +83,7 @@ for document in cursor:
 #1
 retweets=count
 original = total-retweets
-print "count_retweets",count
+# print "count_retweets",count
 
 #2
 sorted_hashtags=sorted(hashtags_count.items(),key=operator.itemgetter(1),reverse=True)
@@ -79,24 +104,25 @@ for x in sorted_hashtags:
 	else:
 		break
 
-for v in sorted(top10.items(),key=operator.itemgetter(1),reverse=True):
-	print v[0],top10[v[0]]
+# for v in sorted(top10.items(),key=operator.itemgetter(1),reverse=True):
+	# print v[0],top10[v[0]]
 #3
 hillary=['hillary','clinton','hillary2016','dumptrump','trumplies','queenofhearts','women','trumppence','trumphypocrite','crookeddonald','hillarybecause','clinton2016','trumprapist','hillary','hilaryclinton','gohillary','wegohiandvote','imstillwithher','clintonfoundation','hillarycare','nevertrump','hillaryclinton','iamwithher','strongertogether']
 sumhillary=0
 for h in hillary:
 	sumhillary=hashtags_count[h]+sumhillary 
 
-trump=['hillaryforprison','trump','maga','trumptrain','donaldtrump2016','blacksfortrump','womenfortrump','stophillary','hillary4prison','gotrump','teamtrump','trumplandslide','trumpsarkar','votetrump2016','votetrumppence16','donald','lockherup','donaldtrump','corrupthillary','neverhillary','trumpwin','trump2016']
+trump=['trump','hillaryforprison','maga','trumptrain','donaldtrump2016','blacksfortrump','womenfortrump','stophillary','hillary4prison','gotrump','teamtrump','trumplandslide','trumpsarkar','votetrump2016','votetrumppence16','donald','lockherup','donaldtrump','corrupthillary','neverhillary','trumpwin','trump2016']
 sumtrump=0
 for t in trump:
 	sumtrump=hashtags_count[t]+sumtrump
 
-if(sumhillary>sumtrump):
-	print "Hillary is more popular"
-else:
-	print "Trump is more popular"
+# print sumhillary,sumtrump
+# if(sumhillary>sumtrump):
+# 	print "Hillary is more popular"
+# else:
+# 	print "Trump is more popular"
 #4
-print type_both
-print type_text
-print type_media
+# print type_both
+# print type_text
+# print type_media

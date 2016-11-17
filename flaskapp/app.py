@@ -12,7 +12,6 @@ def home_page():
 	# print url_for('newpage',name='ramya')
 @app.route('/election', methods=['GET','POST'])
 def election():
-
 	return render_template('polls.html')
 
 # def original_retweet():
