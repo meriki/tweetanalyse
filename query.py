@@ -24,10 +24,42 @@ for document in cursor:
 	except Exception:
 		text="none"
 
-	try:
-		place.append(document['place']['bounding_box']['coordinates'])
-	except Exception:
-		c=1
+	 file=open('geoData','w')
+        for document in cursor:
+        try:
+                if document['text'].startswith('RT'):
+                        count=count+1
+                        text="i"
+        except Exception:
+                text="none"
+
+        try:
+                y=document['place']['bounding_box']['coordinates']
+                r=numpy.array(y)
+                s=numpy.array(r[0])
+                (longitude,latitude)=((s[0][0]+s[2][0])/2,(s[0][1]+s[1][1])/2)
+        #       print("data.addRows([[",end="")
+        #       print(latitude,end=",")
+        #       print(longitude,end="")
+                file.write("data.addRows([[")
+                file.write(str(latitude)+",")
+                file.write(str(longitude))
+
+                try:
+
+                        city=document['place']['name']
+                        print(city)
+                        # print(",'",end="")
+                        # print(city,end="']]);\n")
+                        file.write(",'")
+                        file.write(str(city))
+                        file.write("']]);\n")
+                except Exception:
+                        # file.write("",end="]]);\n")
+                        file.write(",'']]);\n")
+                # place.append(document['place']['bounding_box']['coordinates'])
+        except Exception:
+                c=1
 
 	hashtags=[h["text"].lower() for h in document["entities"]["hashtags"]]
 	for hashtag in hashtags:
