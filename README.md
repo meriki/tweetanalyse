@@ -4,4 +4,8 @@ Language used : python
 
 App made using : flask
 
+UI : HTML, CSS, Bootstrap
+
 To mine real time tweets used : Streaming API
+
+Other technologies used : Google Charts
